@@ -27,8 +27,6 @@ def histogram(data):
     pylab.savefig("MuonHistogram.pdf")
     pylab.show()
     #peaks = scipy.signal.find_peaks(, threshold=1500, distance=1)
-    bin_max = np.where(xmass == xmass.max())
-    print(bin_max)
     #print(peaks)
 '''
 def findpeaks(data):
@@ -46,7 +44,10 @@ def histogram_low(data):
     Nbins = 50
     binMin = 8.45
     binMax = 9.75
-    entries, binedges, patches = pylab.hist(xmass, bins = Nbins, range = [binMin, binMax])
+    x = pylab.hist(xmass)
+    y = pylab.hist(xmass, bins=50)
+    #entries, binedges, patches = pylab.hist(xmass, bins = Nbins, range = [binMin, binMax])
+    #bin_max = np.where(xmass == xmass.max())
     pylab.show()
 
 def histogram_mid(data):
@@ -59,6 +60,9 @@ def histogram_mid(data):
     binMin = 9.75
     binMax = 10.25
     entries, binedges, patches = pylab.hist(xmass, bins = Nbins, range = [binMin, binMax])
+    bin_max = np.where(xmass == xmass.max())
+    np.histogram(xmass)
+
     pylab.show()
 
 def histogram_high(data):
