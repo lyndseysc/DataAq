@@ -2,7 +2,7 @@
 
 #Import libraries
 
-import pylab
+import matplotlib.pylab as pylab
 import numpy as np
 
 #Read in data
