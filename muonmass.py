@@ -76,7 +76,7 @@ def find_peaks(data):
             first_peak.append(data[i])
     first_peak_max = np.max(first_peak)
     print("Length of first peak list is {}".format(len(first_peak)))
-    print("Max mass 1 is {}".format(np.max(first_peak)))
+    print("Max mass gamma(1S) is {}".format(np.max(first_peak)))
 
     second_peak = []
     for i in range (0, len(data)):
@@ -84,7 +84,7 @@ def find_peaks(data):
             second_peak.append(data[i])
     second_peak_max = np.max(second_peak)
     print("Length of second peak list is {}".format(len(second_peak)))
-    print("Max mass 2 is {}".format(np.max(second_peak)))
+    print("Max mass gamma(2S) is {}".format(np.max(second_peak)))
 
     third_peak = []
     for i in range (0, len(data)):
@@ -92,7 +92,10 @@ def find_peaks(data):
             third_peak.append(data[i])
     third_peak_max = np.max(third_peak)
     print("Length of third peak list is {}".format(len(third_peak)))
-    print("Max mass 3 is {}".format(np.max(third_peak)))
+    print("Max mass gamma(3S) is {}".format(np.max(third_peak)))
+
+    print("The difference between gamma(1S) and gamma(2S) is {}".format(np.max(first_peak) - np.max(second_peak)))
+    print("The difference between gamma(1S) and gamma(3S) is {}".format(np.max(first_peak) - np.max(third_peak)))
 
 def main():
   data = read_file()
