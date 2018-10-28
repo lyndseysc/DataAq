@@ -72,12 +72,27 @@ def find_peaks(data):
     #Largest peak between between 9.3 - 9.7Gev/c^2
     first_peak = []
     for i in range (0, len(data)):
-        if data[i] > 9.3 and data[i] < 9.6:
+        if data[i] > 9.4 and data[i] < 9.5:
             first_peak.append(data[i])
-    first_peak_max = np.max(first_peak)
+    a = np.histogram(first_peak)
+    #print(a)
+    b = np.split(a, [1])
+    first_peak_max = np.max(b[0])
+    first_peak_max_max = np.max(first_peak_max)
+    #print(b[0])
+    list = first_peak_max.tolist()
+    index = list.index(first_peak_max_max)
+    #print(first_peak_max)
+    #print(first_peak_max_max)
+    print(index)
+    xmassarray = b[1]
+    xmasslist = xmassarray.tolist()
+    print(xmasslist)
+    X_MASS_THE_CHEEKY_BASTARD = xmasslist[index]
+    print(X_MASS_THE_CHEEKY_BASTARD)
     print("Length of first peak list is {}".format(len(first_peak)))
-    print("Max mass gamma(1S) is {}".format(np.max(first_peak)))
-
+    print("Max mass gamma(1S) is {}".format(np.max(b[0])))
+'''
     second_peak = []
     for i in range (0, len(data)):
         if data[i] > 9.9 and data[i] < 10.1:
@@ -94,9 +109,9 @@ def find_peaks(data):
     print("Length of third peak list is {}".format(len(third_peak)))
     print("Max mass gamma(3S) is {}".format(np.max(third_peak)))
 
-    print("The difference between gamma(1S) and gamma(2S) is {}".format(np.max(first_peak) - np.max(second_peak)))
-    print("The difference between gamma(1S) and gamma(3S) is {}".format(np.max(first_peak) - np.max(third_peak)))
-
+    print("The difference between gamma(1S) and gamma(2S) is {}".format(np.max(second_peak) - np.max(first_peak)))
+    print("The difference between gamma(1S) and gamma(3S) is {}".format(np.max(third_peak) - np.max(first_peak)))
+'''
 def main():
   data = read_file()
   histogram(data)
