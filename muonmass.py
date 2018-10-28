@@ -5,7 +5,9 @@
 import matplotlib.pylab as pylab
 import numpy as np
 import scipy
-from scipy.signal import find_peaks #package which finds peaks of data
+from scipy import stats
+from scipy import signal
+from scipy.signal import argrelextrema, argrelmax #package which finds peaks of data
 #Read in data
 
 def read_file(file="upsilons-mass-xaa.txt"):
@@ -24,16 +26,9 @@ def histogram(data):
     binMin = 8.45
     binMax = 11.0
     entries, binedges, patches = pylab.hist(xmass, bins = Nbins, range = [binMin, binMax])
+    # maxima : use builtin function to find (max) peaks
     pylab.savefig("MuonHistogram.pdf")
     pylab.show()
-    #peaks = scipy.signal.find_peaks(, threshold=1500, distance=1)
-    #print(peaks)
-'''
-def findpeaks(data):
-    peaks = scipy.signal.find_peaks(data, threshold=1500, distance=1)
-    print(peaks)
-'''
-
 
 def histogram_low(data):
     pylab.xlabel('Mass GeV/c^2')
@@ -44,10 +39,9 @@ def histogram_low(data):
     Nbins = 50
     binMin = 8.45
     binMax = 9.75
-    x = pylab.hist(xmass)
-    y = pylab.hist(xmass, bins=50)
+    entries, binedges, patches = pylab.hist(xmass, bins = Nbins, range = [binMin, binMax])
+    #Largest peak between between 9.3 - 9.7Gev/c^2
     #entries, binedges, patches = pylab.hist(xmass, bins = Nbins, range = [binMin, binMax])
-    #bin_max = np.where(xmass == xmass.max())
     pylab.show()
 
 def histogram_mid(data):
@@ -60,9 +54,6 @@ def histogram_mid(data):
     binMin = 9.75
     binMax = 10.25
     entries, binedges, patches = pylab.hist(xmass, bins = Nbins, range = [binMin, binMax])
-    bin_max = np.where(xmass == xmass.max())
-    np.histogram(xmass)
-
     pylab.show()
 
 def histogram_high(data):
@@ -77,7 +68,31 @@ def histogram_high(data):
     entries, binedges, patches = pylab.hist(xmass, bins = Nbins, range = [binMin, binMax])
     pylab.show()
 
+def find_peaks(data):
+    #Largest peak between between 9.3 - 9.7Gev/c^2
+    first_peak = []
+    for i in range (0, len(data)):
+        if data[i] > 9.3 and data[i] < 9.6:
+            first_peak.append(data[i])
+    first_peak_max = np.max(first_peak)
+    print("Length of first peak list is {}".format(len(first_peak)))
+    print("Max mass 1 is {}".format(np.max(first_peak)))
 
+    second_peak = []
+    for i in range (0, len(data)):
+        if data[i] > 9.9 and data[i] < 10.1:
+            second_peak.append(data[i])
+    second_peak_max = np.max(second_peak)
+    print("Length of second peak list is {}".format(len(second_peak)))
+    print("Max mass 2 is {}".format(np.max(second_peak)))
+
+    third_peak = []
+    for i in range (0, len(data)):
+        if data[i] > 10.3 and data[i] < 10.4:
+            third_peak.append(data[i])
+    third_peak_max = np.max(third_peak)
+    print("Length of third peak list is {}".format(len(third_peak)))
+    print("Max mass 3 is {}".format(np.max(third_peak)))
 
 def main():
   data = read_file()
@@ -85,6 +100,5 @@ def main():
   histogram_low(data)
   histogram_mid(data)
   histogram_high(data)
-  #findpeaks(data)
-
+  find_peaks(data)
 main()
