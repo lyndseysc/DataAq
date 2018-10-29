@@ -22,7 +22,7 @@ def histogram(data):
     pylab.title('A histogram of muon pair mass from LHC data')
     pylab.grid(True)
     xmass = data
-    Nbins = 50
+    Nbins = 100
     binMin = 8.45
     binMax = 11.0
     counts, binmass, patches = pylab.hist(xmass, bins = Nbins, range = [binMin, binMax])
@@ -103,7 +103,7 @@ def find_peaks(counts, mass):
 
     print("The difference between gamma(1S) and gamma(2S) is {} Gev/c^2.".format(np.max(second_peak) - np.max(first_peak)))
     print("The difference between gamma(1S) and gamma(3S) is {} Gev/c^2.".format(np.max(third_peak) - np.max(first_peak)))
-
+    return first_peak_max
 
 # 6.3
 
@@ -125,20 +125,42 @@ def statistics(mass):
     standard_dev_of_mean = standard_dev/np.sqrt(n)
     print("The standard deviation on the mean is " + str(standard_dev_of_mean) + " Gev/c^2.")
 
-def FWHM(counts, mass):
+def FWHM(counts, mass, first_peak_max):
     first_peak_area = []
     for i in range (0, len(mass)):
-        if mass[i] > 9.25 and mass[i] < 9.75:
+        if mass[i] > 9.3 and mass[i] < 9.7:
             first_peak_area.append(mass[i])
     #Remove background noise
     heights = []
-    for i in range(0, len(counts)):
-        remove_background = counts[i] - 1300
-        heights.append(remove_background)
-    print(heights)
-
-
-
+    for i in range(0, len(mass)):
+        if mass[i] > 9.3 and mass[i] < 9.7:
+            remove_background = counts[i] - 1300
+            heights.append(remove_background)
+    #print(heights)
+    ymax = np.max(heights)
+    halfymax = 0.5*ymax
+    #print(halfymax)
+    masslist = first_peak_area
+    peakindex = masslist.index(first_peak_max)
+    #print(peakindex)
+    greaterthan = True
+    lessthan = True
+    while greaterthan:
+        if counts[peakindex + 1] < halfymax:
+            greaterthan = False
+            leftwidthindex = peakindex
+        peakindex += 1
+    while lessthan:
+        if counts[peakindex - 1] < halfymax:
+            lessthan = False
+            rightwidthindex = peakindex
+        peakindex -= 1
+    rightwidth = first_peak_area[rightwidthindex]
+    leftwidth = first_peak_area[leftwidthindex]
+    width = rightwidth - leftwidth
+    print(rightwidth)
+    print(leftwidth)
+    print(width)
 
 
 def main():
@@ -147,7 +169,7 @@ def main():
   #histogram_low(data)
   #histogram_mid(data)
   #histogram_high(data)
-  find_peaks(counts, binmass)
+  peak_mass = find_peaks(counts, binmass)
   statistics(binmass)
-  FWHM(counts, binmass)
+  FWHM(counts, binmass, peak_mass)
 main()
