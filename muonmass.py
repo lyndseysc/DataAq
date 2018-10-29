@@ -14,7 +14,7 @@ def read_file(file="upsilons-mass-xaa.txt"):
   data = np.genfromtxt(file) 	#generates list of numbers from the text file
   return data
 
-#Generate Histogram
+#Generate Histogram - 6.1
 
 def histogram(data):
     pylab.xlabel('Mass GeV/c^2')
@@ -30,6 +30,8 @@ def histogram(data):
     pylab.savefig("MuonHistogram.pdf")
     pylab.show()
     return counts, binmass
+
+'''
 
 def histogram_low(data):
     pylab.xlabel('Mass GeV/c^2')
@@ -69,6 +71,10 @@ def histogram_high(data):
     entries, binedges, patches = pylab.hist(xmass, bins = Nbins, range = [binMin, binMax])
     pylab.show()
 
+'''
+
+#Find the three peaks - 6.2
+
 def find_peaks(counts, mass):
     #Largest peak between between 9.3 - 9.7Gev/c^2
     first_peak = []
@@ -77,7 +83,6 @@ def find_peaks(counts, mass):
             if counts[i-1] <= counts[i] >= counts[i+1]:
                 first_peak.append(mass[i])
     first_peak_max = np.max(first_peak)
-    print("Length of first peak list is {}".format(len(first_peak)))
     print("Max mass gamma(1S) is {}".format(np.max(first_peak)))
 
     second_peak = []
@@ -86,7 +91,6 @@ def find_peaks(counts, mass):
             if counts[i-1] <= counts[i] >= counts[i+1]:
                 second_peak.append(mass[i])
     second_peak_max = np.max(second_peak)
-    print("Length of second peak list is {}".format(len(second_peak)))
     print("Max mass gamma(2S) is {}".format(np.max(second_peak)))
 
     third_peak = []
@@ -95,17 +99,55 @@ def find_peaks(counts, mass):
             if counts[i-1] <= counts[i] >= counts[i+1]:
                 third_peak.append(mass[i])
     third_peak_max = np.max(third_peak)
-    print("Length of third peak list is {}".format(len(third_peak)))
     print("Max mass gamma(3S) is {}".format(np.max(third_peak)))
 
-    print("The difference between gamma(1S) and gamma(2S) is {}".format(np.max(second_peak) - np.max(first_peak)))
-    print("The difference between gamma(1S) and gamma(3S) is {}".format(np.max(third_peak) - np.max(first_peak)))
+    print("The difference between gamma(1S) and gamma(2S) is {} Gev/c^2.".format(np.max(second_peak) - np.max(first_peak)))
+    print("The difference between gamma(1S) and gamma(3S) is {} Gev/c^2.".format(np.max(third_peak) - np.max(first_peak)))
+
+
+# 6.3
+
+#First peak is from 9.25 to 9.75
+
+def statistics(mass):
+    first_peak_area = []
+    for i in range (0, len(mass)):
+        if mass[i] > 9.25 and mass[i] < 9.75:
+            first_peak_area.append(mass[i])
+    #print(first_peak_area)
+    mean = np.mean(first_peak_area)
+    print("The mean of the events in first peak is {} Gev/c^2.".format(np.mean(first_peak_area)))
+    variance = np.var(first_peak_area)
+    print("The unbiased variance of the events in the first peak is {} Gev/c^2.".format(np.var(first_peak_area)))
+    standard_dev = np.std(first_peak_area)
+    print("The unbiased standard deviation of the events in the first peak is {} Gev/c^2.".format(np.std(first_peak_area)))
+    n = len(first_peak_area)
+    standard_dev_of_mean = standard_dev/np.sqrt(n)
+    print("The standard deviation on the mean is " + str(standard_dev_of_mean) + " Gev/c^2.")
+
+def FWHM(counts, mass):
+    first_peak_area = []
+    for i in range (0, len(mass)):
+        if mass[i] > 9.25 and mass[i] < 9.75:
+            first_peak_area.append(mass[i])
+    #Remove background noise
+    heights = []
+    for i in range(0, len(counts)):
+        remove_background = counts[i] - 1300
+        heights.append(remove_background)
+    print(heights)
+
+
+
+
 
 def main():
   data = read_file()
   counts, binmass = histogram(data)
-  histogram_low(data)
-  histogram_mid(data)
-  histogram_high(data)
+  #histogram_low(data)
+  #histogram_mid(data)
+  #histogram_high(data)
   find_peaks(counts, binmass)
+  statistics(binmass)
+  FWHM(counts, binmass)
 main()
