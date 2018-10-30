@@ -8,7 +8,8 @@ import scipy
 import math
 from scipy import stats
 from scipy import signal
-import scipy.optimize as optimization
+from scipy import optimize
+from scipy.optimize import curve_fit
  #package which finds peaks of data
 #Read in data
 
@@ -193,8 +194,14 @@ def background_events(mass, counts):
             sideband2.append(counts[i])
             number2 = np.sum(sideband2)
     print("Number of events in sideband 2 is {}".format(number2))
+    K = 0.1
+    countsnew = K*mass
+    print(curve_fit(countsnew, mass, counts))
+
     #leastsquares = np.linalg.lstsq((np.array(events), np.zeros), (np.array(events), np.zeros))
     #print(leastsquares)
+
+
 def main():
   data = read_file()
   counts, binmass = histogram(data)
