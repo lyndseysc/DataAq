@@ -5,6 +5,7 @@
 import matplotlib.pylab as pylab
 import numpy as np
 import scipy
+import math
 from scipy import stats
 from scipy import signal
 from scipy.signal import argrelextrema, argrelmax #package which finds peaks of data
@@ -166,6 +167,8 @@ def FWHM(counts, mass, first_peak_max):
     print("The FWHM width is " + str(width) + " GeV/c^2")
     #print(first_peak_area)
     #print(heights)
+    sigma = len(heights)/(halfymax*(np.sqrt(2*3.14159)))
+    print("The mass resolution from the FWHM is " + str(sigma) + " GeV/c^2")
 
 def main():
   data = read_file()
