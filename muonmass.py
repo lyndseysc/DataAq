@@ -171,9 +171,27 @@ def FWHM(counts, mass, first_peak_max):
     sigma = len(heights)/(halfymax*(np.sqrt(2*3.14159)))
     print("The mass resolution from the FWHM is " + str(sigma) + " GeV/c^2")
 
-def background_events(counts, mass):
+def background_events(data):
     events = []
-    for i in range (0, len(counts)):
+    for i in range (0, len(data)):
+        if data[i] > 9.2945 and data[i] < 9.5945:
+            events.append(data[i])
+    print("Length of first peak list is {}".format(len(events)))
+    sideband1 = []
+    for i in range (0,len(data)):
+        if data[i] > 9.2945 and data[i] < 9.4445:
+            sideband1.append(data[i])
+    print("Number of events in sideband 1 is {}".format(len(sideband1)))
+    sideband2 = []
+    for i in range (0,len(data)):
+        if data[i] > 9.4445 and data[i] < 9.5945:
+            sideband2.append(data[i])
+    print("Number of events in sideband 2 is {}".format(len(sideband1)))
+"""
+
+
+    events = []
+    for i in range (0, len(mass)):
         if mass[i] > 9.2945 and mass[i] < 9.5945:
             events.append(counts[i])
     print("Number of events N is {}".format(len(events)))
@@ -187,7 +205,7 @@ def background_events(counts, mass):
         if mass[i] > 9.4445 and mass[i] < 9.5945:
             sideband2.append(counts[i])
     print("Number of events in sideband 2 is {}".format(len(sideband1)))
-
+"""
 def main():
   data = read_file()
   counts, binmass = histogram(data)
@@ -197,5 +215,5 @@ def main():
   peak_mass = find_peaks(counts, binmass)
   statistics(binmass)
   FWHM(counts, binmass, peak_mass)
-  noise = background_events(counts, binmass)
+  noise = background_events(data)
 main()
