@@ -8,7 +8,8 @@ import scipy
 import math
 from scipy import stats
 from scipy import signal
-from scipy.signal import argrelextrema, argrelmax #package which finds peaks of data
+import scipy.optimize as optimization
+ #package which finds peaks of data
 #Read in data
 
 def read_file(file="upsilons-mass-xaa.txt"):
@@ -192,10 +193,15 @@ def background_events(mass, counts):
             sideband2.append(counts[i])
             number2 = np.sum(sideband2)
     print("Number of events in sideband 2 is {}".format(number2))
+<<<<<<< HEAD
     scipy = 
     leastsquares = np.linalg.lstsq(np.array(massevents, 0), np.array(events, 0))
     print(leastsquares)
 
+=======
+    #leastsquares = np.linalg.lstsq((np.array(events), np.zeros), (np.array(events), np.zeros))
+    #print(leastsquares)
+>>>>>>> 1698daca80e5186eb3579c3477c87f9279014edb
 def main():
   data = read_file()
   counts, binmass = histogram(data)
