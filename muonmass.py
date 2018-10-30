@@ -175,17 +175,20 @@ def background_events(counts, mass):
     for i in range (0, len(counts)):
         if mass[i] > 9.2945 and mass[i] < 9.5945:
             events.append(counts[i])
-    print("Number of events N is {}".format(len(events)))
+            number = np.sum(events)
+    print("Number of events N is {}".format(number))
     sideband1 = []
     for i in range (0,len(counts)):
         if mass[i] > 9.2945 and mass[i] < 9.4445:
             sideband1.append(counts[i])
-    print("Number of events in sideband 1 is {}".format(len(sideband1)))
+            number1 = np.sum(sideband1)
+    print("Number of events in sideband 1 is {}".format(number1))
     sideband2 = []
     for i in range (0,len(counts)):
         if mass[i] > 9.4445 and mass[i] < 9.5945:
             sideband2.append(counts[i])
-    print("Number of events in sideband 2 is {}".format(len(sideband1)))
+            number2 = np.sum(sideband2)
+    print("Number of events in sideband 2 is {}".format(number2))
 
 def main():
   data = read_file()
