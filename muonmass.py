@@ -130,38 +130,42 @@ def FWHM(counts, mass, first_peak_max):
     for i in range (0, len(mass)):
         if mass[i] > 9.3 and mass[i] < 9.7:
             first_peak_area.append(mass[i])
-    #Remove background noise
+
     heights = []
     for i in range(0, len(mass)):
         if mass[i] > 9.3 and mass[i] < 9.7:
-            remove_background = counts[i] - 1300
-            heights.append(remove_background)
+            heights.append(counts[i])
     #print(heights)
     ymax = np.max(heights)
     halfymax = 0.5*ymax
     #print(halfymax)
     masslist = first_peak_area
+    #print(first_peak_max)
     peakindex = masslist.index(first_peak_max)
     #print(peakindex)
     greaterthan = True
     lessthan = True
     while greaterthan:
-        if counts[peakindex + 1] < halfymax:
+        if heights[peakindex + 1] < halfymax:
             greaterthan = False
             leftwidthindex = peakindex
         peakindex += 1
+    peakindex = masslist.index(first_peak_max)
     while lessthan:
-        if counts[peakindex - 1] < halfymax:
+        if heights[peakindex - 1] < halfymax:
             lessthan = False
             rightwidthindex = peakindex
         peakindex -= 1
     rightwidth = first_peak_area[rightwidthindex]
     leftwidth = first_peak_area[leftwidthindex]
-    width = rightwidth - leftwidth
-    print(rightwidth)
-    print(leftwidth)
-    print(width)
-
+    width = leftwidth - rightwidth
+    #print(rightwidthindex)
+    #print(leftwidthindex)
+    #print(rightwidth)
+    #print(leftwidth)
+    print("The FWHM width is " + str(width) + " GeV/c^2")
+    #print(first_peak_area)
+    #print(heights)
 
 def main():
   data = read_file()
