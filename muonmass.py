@@ -170,6 +170,13 @@ def FWHM(counts, mass, first_peak_max):
     sigma = len(heights)/(halfymax*(np.sqrt(2*3.14159)))
     print("The mass resolution from the FWHM is " + str(sigma) + " GeV/c^2")
 
+def background_events(counts, mass):
+    first_peak = []
+    for i in range (0, len(counts)):
+        if mass[i] > 9.2945 and mass[i] < 9.5945:
+            first_peak.append(counts[i])
+    print("Number of events N is {}".format(len(first_peak)))
+
 def main():
   data = read_file()
   counts, binmass = histogram(data)
@@ -179,4 +186,5 @@ def main():
   peak_mass = find_peaks(counts, binmass)
   statistics(binmass)
   FWHM(counts, binmass, peak_mass)
+  noise = background_events(counts, binmass)
 main()
