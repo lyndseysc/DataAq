@@ -173,24 +173,28 @@ def FWHM(counts, mass, first_peak_max):
 
 def background_events(mass, counts):
     events = []
+    massevents = []
     for i in range (0, len(mass)):
         if mass[i] > 9.2945 and mass[i] < 9.5945:
             events.append(counts[i])
             number = np.sum(events)
+            massevents.append(mass[i])
     print("Number of events N is {}".format(number))
     sideband1 = []
     for i in range (0,len(mass)):
-        if mass[i] > 9.2945 and mass[i] < 9.4445:
+        if mass[i] > 9.1445 and mass[i] < 9.2945:
             sideband1.append(counts[i])
             number1 = np.sum(sideband1)
     print("Number of events in sideband 1 is {}".format(number1))
     sideband2 = []
     for i in range (0,len(counts)):
-        if mass[i] > 9.4445 and mass[i] < 9.5945:
+        if mass[i] > 9.5945 and mass[i] < 9.7445:
             sideband2.append(counts[i])
             number2 = np.sum(sideband2)
     print("Number of events in sideband 2 is {}".format(number2))
-
+    leastsquares = np.linalg.lstsq((np.array(massevents), np.zeros), (np.array(events), np.zeros))
+    print(leastsquares)
+    
 def main():
   data = read_file()
   counts, binmass = histogram(data)
