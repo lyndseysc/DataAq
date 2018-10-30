@@ -86,6 +86,7 @@ def find_peaks(counts, mass):
     first_peak_max = np.max(first_peak)
     print("Max mass gamma(1S) is {}".format(np.max(first_peak)))
 
+
     second_peak = []
     for i in range (0, len(mass)):
         if mass[i] > 9.9 and mass[i] < 10.2:
@@ -177,7 +178,7 @@ def background_events(counts, mass):
             events.append(counts[i])
     print("Number of events N is {}".format(len(events)))
     sideband1 = []
-    for i in range (0,len(counts)):
+    for i in range (0,len(mass)):
         if mass[i] > 9.2945 and mass[i] < 9.4445:
             sideband1.append(counts[i])
     print("Number of events in sideband 1 is {}".format(len(sideband1)))
