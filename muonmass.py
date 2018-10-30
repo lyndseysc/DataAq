@@ -86,6 +86,7 @@ def find_peaks(counts, mass):
     first_peak_max = np.max(first_peak)
     print("Max mass gamma(1S) is {}".format(np.max(first_peak)))
 
+
     second_peak = []
     for i in range (0, len(mass)):
         if mass[i] > 9.9 and mass[i] < 10.2:
@@ -170,15 +171,33 @@ def FWHM(counts, mass, first_peak_max):
     sigma = len(heights)/(halfymax*(np.sqrt(2*3.14159)))
     print("The mass resolution from the FWHM is " + str(sigma) + " GeV/c^2")
 
-def background_events(counts, mass):
+def background_events(data):
     events = []
-    for i in range (0, len(counts)):
+    for i in range (0, len(data)):
+        if data[i] > 9.2945 and data[i] < 9.5945:
+            events.append(data[i])
+    print("Length of first peak list is {}".format(len(events)))
+    sideband1 = []
+    for i in range (0,len(data)):
+        if data[i] > 9.2945 and data[i] < 9.4445:
+            sideband1.append(data[i])
+    print("Number of events in sideband 1 is {}".format(len(sideband1)))
+    sideband2 = []
+    for i in range (0,len(data)):
+        if data[i] > 9.4445 and data[i] < 9.5945:
+            sideband2.append(data[i])
+    print("Number of events in sideband 2 is {}".format(len(sideband1)))
+"""
+
+
+    events = []
+    for i in range (0, len(mass)):
         if mass[i] > 9.2945 and mass[i] < 9.5945:
             events.append(counts[i])
             number = np.sum(events)
     print("Number of events N is {}".format(number))
     sideband1 = []
-    for i in range (0,len(counts)):
+    for i in range (0,len(mass)):
         if mass[i] > 9.2945 and mass[i] < 9.4445:
             sideband1.append(counts[i])
             number1 = np.sum(sideband1)
@@ -187,9 +206,14 @@ def background_events(counts, mass):
     for i in range (0,len(counts)):
         if mass[i] > 9.4445 and mass[i] < 9.5945:
             sideband2.append(counts[i])
+<<<<<<< HEAD
             number2 = np.sum(sideband2)
     print("Number of events in sideband 2 is {}".format(number2))
 
+=======
+    print("Number of events in sideband 2 is {}".format(len(sideband1)))
+"""
+>>>>>>> a94b3322bd9989d828d3839c6b281e660f2e00e6
 def main():
   data = read_file()
   counts, binmass = histogram(data)
@@ -199,5 +223,5 @@ def main():
   peak_mass = find_peaks(counts, binmass)
   statistics(binmass)
   FWHM(counts, binmass, peak_mass)
-  noise = background_events(counts, binmass)
+  noise = background_events(data)
 main()
