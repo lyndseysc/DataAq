@@ -175,6 +175,8 @@ def FWHM(counts, mass, first_peak_max):
 def background_events(mass, counts):
     events = []
     massevents = []
+    massband1 = []
+    massband2 = []
     for i in range (0, len(mass)):
         if mass[i] > 9.2945 and mass[i] < 9.5945:
             events.append(counts[i])
@@ -185,23 +187,31 @@ def background_events(mass, counts):
     for i in range (0,len(mass)):
         if mass[i] > 9.1445 and mass[i] < 9.2945:
             sideband1.append(counts[i])
+            massband1.append(mass[i])
             number1 = np.sum(sideband1)
     print("Number of events in sideband 1 is {}".format(number1))
     sideband2 = []
     for i in range (0,len(counts)):
         if mass[i] > 9.5945 and mass[i] < 9.7445:
             sideband2.append(counts[i])
+            massband2.append(mass[i])
             number2 = np.sum(sideband2)
     print("Number of events in sideband 2 is {}".format(number2))
-<<<<<<< HEAD
-    scipy = 
-    leastsquares = np.linalg.lstsq(np.array(massevents, 0), np.array(events, 0))
-    print(leastsquares)
-
-=======
     #leastsquares = np.linalg.lstsq((np.array(events), np.zeros), (np.array(events), np.zeros))
     #print(leastsquares)
->>>>>>> 1698daca80e5186eb3579c3477c87f9279014edb
+
+    '''
+    Try sideband subtraction
+    '''
+
+    k_array = np.divide(massband1, sideband1)
+    h_array = np.divide(massband2, sideband2)
+    const = (np.mean(k_array) + np.mean(h_array)) * 0.5
+    # print(const)
+    background = const*np.array(events)
+    sum = np.sum(background)
+    print("The number of background events are " + str(sum) )
+
 def main():
   data = read_file()
   counts, binmass = histogram(data)
