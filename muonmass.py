@@ -192,9 +192,10 @@ def background_events(mass, counts):
             sideband2.append(counts[i])
             number2 = np.sum(sideband2)
     print("Number of events in sideband 2 is {}".format(number2))
-    leastsquares = np.linalg.lstsq((np.array(massevents), np.zeros), (np.array(events), np.zeros))
+    scipy = 
+    leastsquares = np.linalg.lstsq(np.array(massevents, 0), np.array(events, 0))
     print(leastsquares)
-    
+
 def main():
   data = read_file()
   counts, binmass = histogram(data)
