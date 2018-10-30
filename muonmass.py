@@ -170,7 +170,7 @@ def FWHM(counts, mass, first_peak_max):
     print("The FWHM width is " + str(width) + " GeV/c^2")
     #print(first_peak_area)
     #print(heights)
-    sigma = len(heights)/(halfymax*(np.sqrt(2*3.14159)))
+    sigma = width/2.355
     print("The mass resolution from the FWHM is " + str(sigma) + " GeV/c^2")
 
 def background_events(mass, counts):
@@ -183,23 +183,21 @@ def background_events(mass, counts):
             events.append(counts[i])
             number = np.sum(events)
             massevents.append(mass[i])
-    print("Number of events N is {}".format(number))
+    print("Number of events, N, in the signal region is {}".format(number))
     sideband1 = []
     for i in range (0,len(mass)):
         if mass[i] > 9.1445 and mass[i] < 9.2945:
             sideband1.append(counts[i])
             massband1.append(mass[i])
             number1 = np.sum(sideband1)
-    print("Number of events in sideband 1 is {}".format(number1))
+    #print("Number of events in sideband 1 is {}".format(number1))
     sideband2 = []
     for i in range (0,len(counts)):
         if mass[i] > 9.5945 and mass[i] < 9.7445:
             sideband2.append(counts[i])
             massband2.append(mass[i])
             number2 = np.sum(sideband2)
-    print("Number of events in sideband 2 is {}".format(number2))
-    #leastsquares = np.linalg.lstsq((np.array(events), np.zeros), (np.array(events), np.zeros))
-    #print(leastsquares)
+    #print("Number of events in sideband 2 is {}".format(number2))
 
     '''
     Try sideband subtraction
@@ -212,6 +210,9 @@ def background_events(mass, counts):
     background = const*np.array(events)
     sum = np.sum(background)
     print("The number of background events are " + str(sum) )
+    signal = np.subtract(events, background)
+    sum2 = np.sum(signal)
+    print("The number of signal events are " + str(sum2))
 
 def main():
   data = read_file()
