@@ -194,12 +194,8 @@ def background_events(mass, counts):
             sideband2.append(counts[i])
             number2 = np.sum(sideband2)
     print("Number of events in sideband 2 is {}".format(number2))
-    K = 0.1
-    countsnew = K*mass
-    print(curve_fit(countsnew, mass, counts))
-
-    #leastsquares = np.linalg.lstsq((np.array(events), np.zeros), (np.array(events), np.zeros))
-    #print(leastsquares)
+    leastsquares = np.linalg.lstsq(np.array(massevents, 0), np.array(events, 0))
+    print(leastsquares)
 
 
 def main():
