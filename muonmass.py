@@ -171,11 +171,21 @@ def FWHM(counts, mass, first_peak_max):
     print("The mass resolution from the FWHM is " + str(sigma) + " GeV/c^2")
 
 def background_events(counts, mass):
-    first_peak = []
+    events = []
     for i in range (0, len(counts)):
         if mass[i] > 9.2945 and mass[i] < 9.5945:
-            first_peak.append(counts[i])
-    print("Number of events N is {}".format(len(first_peak)))
+            events.append(counts[i])
+    print("Number of events N is {}".format(len(events)))
+    sideband1 = []
+    for i in range (0,len(counts)):
+        if mass[i] > 9.2945 and mass[i] < 9.4445:
+            sideband1.append(counts[i])
+    print("Number of events in sideband 1 is {}".format(len(sideband1)))
+    sideband2 = []
+    for i in range (0,len(counts)):
+        if mass[i] > 9.4445 and mass[i] < 9.5945:
+            sideband2.append(counts[i])
+    print("Number of events in sideband 2 is {}".format(len(sideband1)))
 
 def main():
   data = read_file()
